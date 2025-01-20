@@ -1,0 +1,7 @@
+.dasboard-container {
+  display: flex;
+}
+
+.dashboard-main-content {
+  width: 100%;
+}
