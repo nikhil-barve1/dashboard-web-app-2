@@ -3,6 +3,8 @@ export default function DashboardNavbar() {
     window.useState(false);
   const [getUser, setUser, subscribeToUser] = window.useState(null);
 
+  let eventListenersAdded = false;
+
   // Fetch logged-in user details
   const fetchUser = () => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -25,6 +27,25 @@ export default function DashboardNavbar() {
     }
   };
 
+  // Remove event listeners
+  const removeEventListeners = () => {
+    if (!eventListenersAdded) return;
+
+    document.removeEventListener("mousedown", handleOutsideClick);
+    const profileContainer = document.querySelector(".profile-container");
+    const logOutButton = document.querySelector("#logOutButton");
+
+    if (profileContainer) {
+      profileContainer.removeEventListener("click", toggleDropdown);
+    }
+
+    if (logOutButton) {
+      logOutButton.removeEventListener("click", logOut);
+    }
+
+    eventListenersAdded = false;
+  };
+
   // Add event listeners
   const addEventListeners = () => {
     const profileContainer = document.querySelector(".profile-container");
@@ -35,14 +56,19 @@ export default function DashboardNavbar() {
     }
 
     if (logOutButton) {
-      logOutButton.addEventListener("click", () => {
-        localStorage.removeItem("loggedInUser");
-        alert("You have logged out!");
-        window.navigateTo("/");
-      });
+      logOutButton.addEventListener("click", logOut);
     }
 
     document.addEventListener("mousedown", handleOutsideClick);
+    eventListenersAdded = true;
+  };
+
+  // Log out user
+  const logOut = () => {
+    localStorage.removeItem("loggedInUser");
+    alert("You have logged out!");
+    window.navigateTo("/");
+    removeEventListeners(); // Cleanup after logout
   };
 
   // Render HTML

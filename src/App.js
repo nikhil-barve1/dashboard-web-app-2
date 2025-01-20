@@ -13,6 +13,3 @@ export function loadNavbar() {
     navbarContainer.innerHTML = Navbar();
   }
 }
-
-// Initialize Navbar on page load
-document.addEventListener("DOMContentLoaded", loadNavbar);

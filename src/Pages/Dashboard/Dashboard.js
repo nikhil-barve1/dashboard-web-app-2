@@ -55,6 +55,7 @@ export default function Dashboard() {
     // Re-attach event listener for the updated button
     const hamburgerIcon = document.getElementById("hamburger-icon");
     if (hamburgerIcon) {
+      hamburgerIcon.removeEventListener("click", toggleSidebar);
       hamburgerIcon.addEventListener("click", toggleSidebar);
     }
   };
@@ -686,6 +687,13 @@ export default function Dashboard() {
 
     productOption.classList.add("active-menu-option");
 
+    // Remove old listeners first
+    dashboardOption?.removeEventListener("click", () => {});
+    productOption?.removeEventListener("click", () => {});
+    brandOption?.removeEventListener("click", () => {});
+    logOutOption?.removeEventListener("click", () => {});
+
+    // Add new listeners
     dashboardOption.addEventListener("click", () => {
       handleSelectSection("dashboard");
       dashboardOption.classList.add("active-menu-option");
@@ -703,6 +711,12 @@ export default function Dashboard() {
     logOutOption.addEventListener("click", () => {
       localStorage.removeItem("loggedInUser");
       alert("You have logged out!");
+
+      // Cleanup state or DOM elements before navigating away
+      setIsSidebarOpen(false);
+      const sidebar = document.getElementById("sidebar");
+      if (sidebar) sidebar.innerHTML = "";
+
       window.navigateTo("/login");
     });
   }
