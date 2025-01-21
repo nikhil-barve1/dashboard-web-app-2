@@ -677,6 +677,20 @@ export default function Dashboard() {
     renderSection();
   };
 
+  // Remove event listeners
+  const removeEventListeners = () => {
+    const profileContainer = document.querySelector(".profile-container");
+    const logOutButton = document.querySelector("#logOutButton");
+
+    if (profileContainer) {
+      profileContainer.removeEventListener("click", toggleDropdown);
+    }
+
+    if (logOutButton) {
+      logOutButton.removeEventListener("click", logOut);
+    }
+  };
+
   const sidebarComponent = document.getElementById("sidebar");
 
   if (sidebarComponent) {
@@ -694,30 +708,28 @@ export default function Dashboard() {
     logOutOption?.removeEventListener("click", () => {});
 
     // Add new listeners
-    dashboardOption.addEventListener("click", () => {
+    dashboardOption?.addEventListener("click", () => {
       handleSelectSection("dashboard");
       dashboardOption.classList.add("active-menu-option");
     });
 
-    productOption.addEventListener("click", () => {
+    productOption?.addEventListener("click", () => {
       handleSelectSection("products");
       productOption.classList.add("active-menu-option");
     });
-    brandOption.addEventListener("click", () => {
+    brandOption?.addEventListener("click", () => {
       handleSelectSection("brands");
       brandOption.classList.add("active-menu-option");
     });
 
-    logOutOption.addEventListener("click", () => {
+    logOutOption?.addEventListener("click", () => {
+      // Remove logged-in user data
       localStorage.removeItem("loggedInUser");
+
+      // Navigate to login page
       alert("You have logged out!");
-
-      // Cleanup state or DOM elements before navigating away
-      setIsSidebarOpen(false);
-      const sidebar = document.getElementById("sidebar");
-      if (sidebar) sidebar.innerHTML = "";
-
       window.navigateTo("/login");
+      removeEventListeners();
     });
   }
 

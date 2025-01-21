@@ -59,7 +59,6 @@ export default function DashboardNavbar() {
       logOutButton.addEventListener("click", logOut);
     }
 
-    document.addEventListener("mousedown", handleOutsideClick);
     eventListenersAdded = true;
   };
 

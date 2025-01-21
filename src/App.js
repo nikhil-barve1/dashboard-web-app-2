@@ -5,6 +5,8 @@ export function loadNavbar() {
   const navbarContainer = document.getElementById("navbar-container");
   const path = window.location.pathname;
 
+  navbarContainer.innerHTML = "";
+
   // Load Dashboard navbar if the path is /dashboard
   if (path === "/dashboard") {
     navbarContainer.innerHTML = DashboardNavbar();
